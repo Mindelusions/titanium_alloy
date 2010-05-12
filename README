@@ -105,9 +105,9 @@ to the `$.theme()` method before creating UI elements.
 
 ## Try It Out
 
-Want to just plug alloy in and give it a try quick? All you need is the alloy.js or alloy.min.js file. 
-Everything is compiled in save for the test theme which you can find in the themes/ dir. Once you have the js, 
-just include it like normal.
+Want to just plug alloy in and give it a try quick? All you need is the alloy.js or alloy.min.js file. You can 
+get just the necessary files in a tarball from the Downloads tab. Everything is compiled in save for the test 
+theme which you can find in the themes/ dir. Once you have the js, just include it like normal.
 
 	Ti.include('titanium_alloy/alloy.js');
 	

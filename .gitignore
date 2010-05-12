@@ -5,3 +5,4 @@ dist
 *.patch
 .DS_Store
 *.esproj
+*.tar
