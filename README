@@ -1,0 +1,126 @@
+# Titanium Alloy
+
+Alloy is a small javascript library that naturally developed during the development of a 
+number of Titanium Mobile apps. For the most part, the library consists of shortcuts and 
+convenience methods for existing Titanium functionality, however, Alloy does have some 
+potentially useful additions.
+
+**Please note that this code is not documented, optimized, or really even tested much beyond 
+the needs of my own personal apps. I would not recommend relying too heavily on this in its 
+current state**
+
+
+## Code jQuery Style
+
+Alloy is written and compiled jquery style, just without the DOM functionality. I know what 
+you're thinking, "WTH is the point of that?", right. This was simply to keep things familiar 
+and easily remembered. With the 0.9 - 1.0 release of Titanium, there were a surprising number 
+of folks who seem to get lost when jquery is not available. However, without a DOM present, 
+there are obviously going to be some differences. Most importantly:
+
+1. Alloy object is not returned as an array of elements, but rather an object with a possible 
+context. As selectors, in their native form, don't do us much good, querying for a list of elements 
+becomes a completely different animal. It may be possible to track the UI in such a way, but 
+I'll leave that for some future headache.
+
+2. Creating a UI element via alloy currently returns the Titanium UI object rather than an 
+alloy object wrapped around the element. This just made working with UI objects a bit 
+easier for now, however it does impact the chaining functionality.
+
+Regardless, using alloy functionality on a Titanium object remains quite simple. ie:
+	   
+	// bind a TableView created by normal process
+	var tableView = Ti.UI.createTableView({data:data});
+	$(tableView).bind('click', function(e) {
+		// click event handler
+	});
+	
+	// bind some custom-ness to Ti.App
+	$(Ti.App).bind('my_event', function(e) {
+		// custom handler
+	});
+	
+## Plugins
+	   		
+Although DOM functionality is not available, the plugin extensibility is. Plugins are created syntactically 
+identical to jquery plugins, with the exception of the return object. Since alloy is not an array of elements, 
+the usual `return this.each(function() { //code })` is not necessary. Simply return the alloy object after the 
+plugin code has been executed. The activityIndicator and the messageWindow plugins come baked into alloy. 
+See the plugin code for a better look at the differences and similarities.
+
+## Themes / Styles
+
+One useful feature I added is the ability to setup style definitions for UI objects that can be used as 'themes'. 
+By simply creating default and className like object configurations for elements, I cut down on much of my repetative 
+code and made it easy to keep my UI uniform across windows, views, and apps. These 'themes' are extremely easy to 
+create:
+
+	// example theme definition in themes/default.js
+	$.theme({
+		label: {
+			height:'auto',
+			width:'auto',
+			top:5,
+			left:5,
+			right:5,
+			bottom:5,
+			font:{fontSize:14,fontWeight:'normal'},
+			color:'#666',
+			shadowColor:'#fff',
+			shadowOffset:{x:0,y:1}
+		},
+		"headerLabel": {
+			width:300,
+			height:'auto',
+			color:'#D2242A',
+			font:{
+				fontSize:20,
+				fontFamily:'Helvetica',
+				fontWeight:'bold'
+			},
+			shadowColor:'#000',
+			shadowOffset:{x:0,y:1},
+			textAlign:'left'
+		}
+	});
+
+The above theme sets the default style for all alloy created `label` elements as well as a separate label 
+definition for elements marked with the `headerLabel` 'class'. To use a theme definition just pass the config 
+to the `$.theme()` method before creating UI elements.
+
+	// Set theme definition by importing theme file.
+	// I keep my themes in a seperate file for easy switching
+	Ti.include('themes/default.js');
+	
+	// Create a label with the default style.
+	$.label({text:'This is a default label'});
+	
+	// Create a label with headerLabel style.
+	$.label({text:'This is a header label'}, "headerLabel");
+	
+	// Alter any style definition on the fly.
+	$.label({text:'Altered header label',color:'#ff0000'}, "headerLabel");
+	
+---
+
+## Try It Out
+
+Want to just plug alloy in and give it a try quick? All you need is the alloy.js or alloy.min.js file. 
+Everything is compiled in save for the test theme which you can find in the themes/ dir. Once you have the js, 
+just include it like normal.
+
+	Ti.include('titanium_alloy/alloy.js');
+	
+## Docs & Other Stuff
+
+If alloy is possibly useful to others, then I'll put together some decent documentation, otherwise the 
+project will continue to change based on my needs and more than likely remain less than minimally documented.
+
+---
+
+Copyright &copy;2010 by Anthony Decena
+Mindelusions, Inc.
+http://mindelusions.com
+
+
+
